@@ -103,7 +103,7 @@ function setupCanvas(barChartData)
 const header = this_svg.append('g').attr('class','bar-header')
                 .attr('transform', `translate(0,${-chart_margin.top/2})`)
                 .append('text');
-header.append('tspan').text('Trading Volume by Industry')
+header.append('tspan').text('上市公司產業每月累計成交量排行')
 header.append('tspan').text('Years:2012/11-2022/11    單位:筆數(千筆)')
     .attr('x',0).attr('y',20).style('font-size','0.8em').style('fill','#555')
 }
