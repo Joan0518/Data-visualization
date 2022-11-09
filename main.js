@@ -95,7 +95,7 @@ function setupCanvas(barChartData)
                          .attr('y',d=>yScale(d.Industry))
                          .attr('width',d=>xScale(d.Trading_Volume))
                          .attr('height',yScale.bandwidth())
-                         .style('fill','black')
+                         .style('fill','steelblue')
                     
 
 
@@ -119,7 +119,7 @@ function formatTicks(d){
 
 
 //取得資料
-d3.csv('data/TSE產業別個股交易量.csv',type).then(
+d3.csv('data/TWSE產業別個股交易量.csv',type).then(
     res => {
     ready(res);
     // console.log('CSV',res);
