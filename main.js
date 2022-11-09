@@ -1,4 +1,3 @@
-
 //把標示為空值"NA"的字串轉為Javascript認知的空值
 const parseNA = string => (string == 'NA' ? undefined : string);
 //轉為Javascript的日期時間格式
@@ -51,8 +50,7 @@ function ready(個股資料){
     console.log(barChartData);
     setupCanvas(barChartData);
 }
-
-// function setupCanvas(barChartData)
+//開始繪圖
 function setupCanvas(barChartData)
 {
     const svg_width = 400;
@@ -97,35 +95,29 @@ function setupCanvas(barChartData)
                          .attr('height',yScale.bandwidth())
                          .style('fill','steelblue')
                     
-
-
 //加上標題
-const header = this_svg.append('g').attr('class','bar-header')
-                .attr('transform', `translate(0,${-chart_margin.top/2})`)
-                .append('text');
-header.append('tspan').text('上市公司產業每月累計成交量排行')
-header.append('tspan').text('Years:2012/11-2022/11    單位:筆數(千筆)')
-    .attr('x',0).attr('y',20).style('font-size','0.8em').style('fill','#555')
+    const header = this_svg.append('g').attr('class','bar-header')
+                           .attr('transform', `translate(0,${-chart_margin.top/2})`)
+                           .append('text');
+    header.append('tspan').text('上市公司產業每月累計成交量排行')
+    header.append('tspan').text('Years:2012/11-2022/11    單位:筆數(千筆)')
+          .attr('x',0).attr('y',20).style('font-size','0.8em').style('fill','#555')
+
 }
 
 //刻度顯示格式轉換
 function formatTicks(d){
+    
     return d3.format('~s')(d)
              .replace('M','mil')
              .replace('G','bil')
              .replace('T','trl')
 }
 
-
-
 //取得資料
 d3.csv('data/TWSE產業別個股交易量.csv',type).then(
     res => {
     ready(res);
-    // console.log('CSV',res);
-   
-
-//     {console.log('Movies:',res[0]);
- }
+   }
 );
 
