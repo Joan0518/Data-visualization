@@ -119,7 +119,7 @@ yAxisDraw.selectAll('text').attr('dx','-0.6em')
 
 
 //取得資料
-d3.csv('data/TSE產業別個股交易量2.csv',type).then(
+d3.csv('data/TSE產業別個股交易量.csv',type).then(
     res => {
     ready(res);
     // console.log('CSV',res);
