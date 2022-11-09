@@ -65,26 +65,37 @@ function setupCanvas(barChartData)
     .attr('width',svg_width).attr('height', svg_height).append('g')
     .attr('transform', `translate(${chart_margin.left}, ${chart_margin.top})`);
  
-const xExtent = d3.extent(barChartData, d=> d.Trading_Volume);
-const xScale = d3.scaleLinear().domain(xExtent).range([0,chart_width]);
-const xMax = d3.max(barChartData, d=>d.Trading_Volume)
-const yScale = d3.scaleBand().domain(barChartData.map(d=>d.Industry))
+    const xExtent = d3.extent(barChartData, d=> d.Trading_Volume);
+    const xScale = d3.scaleLinear().domain(xExtent).range([0,chart_width]);
+    const xMax = d3.max(barChartData, d=>d.Trading_Volume)
+    const yScale = d3.scaleBand().domain(barChartData.map(d=>d.Industry))
                     .rangeRound([0, chart_height])
                     .paddingInner(0.25)
  
-
+    const xAxis = d3.axisTop(xScale)
+                    .tickFormat(formatTicks)
+                    .tickSizeInner(-chart_height)
+                    .tickSizeOuter(0);
+    const xAxisDraw = this_svg.append('g')
+                              .attr('class','x axis')
+                              .call(xAxis);
+    const yAxis = d3.axisLeft(yScale).tickSize(0);
+    const yAxisDraw = this_svg.append('g')
+                              .attr('class','y axis')
+                              .call(yAxis);
+    yAxisDraw.selectAll('text').attr('dx','-0.6em')
 
 //繪製長條圖
-const bars = this_svg.selectAll('.bar')
-                    .data(barChartData)
-                    .enter()
-                    .append('rect')
-                    .attr('class','bar')
-                    .attr('x',0)
-                    .attr('y',d=>yScale(d.Industry))
-                    .attr('width',d=>xScale(d.Trading_Volume))
-                    .attr('height',yScale.bandwidth())
-                    .style('fill','black')
+    const bars = this_svg.selectAll('.bar')
+                         .data(barChartData)
+                         .enter()
+                         .append('rect')
+                         .attr('class','bar')
+                         .attr('x',0)
+                         .attr('y',d=>yScale(d.Industry))
+                         .attr('width',d=>xScale(d.Trading_Volume))
+                         .attr('height',yScale.bandwidth())
+                         .style('fill','black')
                     
 
 
@@ -100,22 +111,11 @@ header.append('tspan').text('Years:2012/11-2022/11    單位:筆數(千筆)')
 //刻度顯示格式轉換
 function formatTicks(d){
     return d3.format('~s')(d)
-    .replace('M','mil')
-    .replace('G','bil')
-    .replace('T','trl')
+             .replace('M','mil')
+             .replace('G','bil')
+             .replace('T','trl')
 }
-const xAxis = d3.axisTop(xScale)
-                .tickFormat(formatTicks)
-                .tickSizeInner(-chart_height)
-                .tickSizeOuter(0);
-const xAxisDraw = this_svg.append('g')
-                          .attr('class','x axis')
-                          .call(xAxis);
-const yAxis = d3.axisLeft(yScale).tickSize(0);
-const yAxisDraw = this_svg.append('g')
-                          .attr('class','y axis')
-                          .call(yAxis);
-yAxisDraw.selectAll('text').attr('dx','-0.6em')
+
 
 
 //取得資料
