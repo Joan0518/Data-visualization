@@ -67,22 +67,9 @@ function setupCanvas(barChartData)
     const xScale = d3.scaleLinear().domain(xExtent).range([0,chart_width]);
     const xMax = d3.max(barChartData, d=>d.Trading_Volume)
     const yScale = d3.scaleBand().domain(barChartData.map(d=>d.Industry))
-                    .rangeRound([0, chart_height])
-                    .paddingInner(0.25)
+                     .rangeRound([0, chart_height])
+                     .paddingInner(0.4)
  
-    const xAxis = d3.axisTop(xScale)
-                    .tickFormat(formatTicks)
-                    .tickSizeInner(-chart_height)
-                    .tickSizeOuter(0);
-    const xAxisDraw = this_svg.append('g')
-                              .attr('class','x axis')
-                              .call(xAxis);
-    const yAxis = d3.axisLeft(yScale).tickSize(0);
-    const yAxisDraw = this_svg.append('g')
-                              .attr('class','y axis')
-                              .call(yAxis);
-    yAxisDraw.selectAll('text').attr('dx','-0.6em')
-
 //繪製長條圖
     const bars = this_svg.selectAll('.bar')
                          .data(barChartData)
@@ -94,6 +81,20 @@ function setupCanvas(barChartData)
                          .attr('width',d=>xScale(d.Trading_Volume))
                          .attr('height',yScale.bandwidth())
                          .style('fill','steelblue')
+//加上數值區隔線
+    const xAxis = d3.axisTop(xScale)
+                    .tickFormat(formatTicks)
+                    .tickSizeInner(-chart_height)
+                    .tickSizeOuter(0);
+    const xAxisDraw = this_svg.append('g')
+                              .attr('class','x axis')
+                              .call(xAxis);
+
+    const yAxis = d3.axisLeft(yScale).tickSize(0);
+    const yAxisDraw = this_svg.append('g')
+                              .attr('class','y axis')
+                              .call(yAxis);
+    yAxisDraw.selectAll('text').attr('dx','-0.6em')
                     
 //加上標題
     const header = this_svg.append('g').attr('class','bar-header')
@@ -107,7 +108,7 @@ function setupCanvas(barChartData)
 
 //刻度顯示格式轉換
 function formatTicks(d){
-    
+
     return d3.format('~s')(d)
              .replace('M','mil')
              .replace('G','bil')
